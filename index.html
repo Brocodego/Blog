@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Blog</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background: url('pe.jpg') center/cover no-repeat; /* Add the path to your image */
+        }
+
+        header {
+            background-color: rgba(51, 51, 51, 0);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        header:hover {
+            background-color: rgba(51, 51, 51, 0.5); /* Change the transparency on hover if needed */
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0); /* Fully transparent */
+            padding: 15px 0;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            transition: color 0.3s ease-in-out;
+        }
+
+        nav a:hover {
+            color: #4CAF50;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        article {
+            background-color: transparent;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        article:hover {
+            transform: scale(1.02);
+        }
+
+        h2,
+        p {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        section#addBlogForm {
+            margin: 0 auto; /* Center horizontally */
+            max-width: 800px;
+            background-color: transparent;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 50px; /* Adjust the margin-top to move it up or down */
+        }
+
+        #blogForm {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: white;
+        }
+
+        input,
+        textarea {
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Simple Blog</h1>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <main id="blogContainer">
+        <!-- Existing blog posts go here -->
+    </main>
+
+    <section id="addBlogForm">
+        <h2>Add a New Blog</h2>
+        <form id="blogForm">
+            <label for="blogTitle">Title:</label>
+            <input type="text" id="blogTitle" required>
+
+            <label for="blogContent">Content:</label>
+            <textarea id="blogContent" required></textarea>
+
+            <label for="blogImage">Image:</label>
+            <input type="file" id="blogImage" accept="image/*">
+
+            <button type="button" onclick="addBlog()">Add Blog</button>
+        </form>
+    </section>
+
+    <footer>
+        &copy; 2023 Simple Blog
+    </footer>
+
+    <script>
+        function addBlog() {
+            // Get values from the form
+            var title = document.getElementById('blogTitle').value;
+            var content = document.getElementById('blogContent').value;
+            var imageInput = document.getElementById('blogImage');
+            var imageFile = imageInput.files[0];
+
+            // Check if both title and content are provided
+            if (title.trim() !== '' && content.trim() !== '') {
+                // Create a new article element
+                var newArticle = document.createElement('article');
+
+                // Create an image element if a file is selected
+                if (imageFile) {
+                    var img = document.createElement('img');
+                    img.src = URL.createObjectURL(imageFile);
+                    img.alt = 'Blog Image';
+                    img.style.maxWidth = '100%';
+                    newArticle.appendChild(img);
+                }
+
+                // Populate the article with title and content
+                newArticle.innerHTML += `
+                    <h2>${title}</h2>
+                    <p>Published on ${new Date().toLocaleDateString()}</p>
+                    <p>${content}</p>
+                `;
+
+                // Append the new article to the blog container
+                document.getElementById('blogContainer').appendChild(newArticle);
+
+                // Clear the form inputs
+                document.getElementById('blogTitle').value = '';
+                document.getElementById('blogContent').value = '';
+                imageInput.value = ''; // Clear the file input
+            } else {
+                alert('Please provide both title and content for the blog.');
+            }
+        }
+    </script>
+
+</body>
+</html>
